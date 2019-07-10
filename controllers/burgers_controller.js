@@ -1,14 +1,15 @@
-const express = require('express');
+/* require Express and instantiate a variable of type "Router"
+*/
+var express = require('express');
+var router  = express.Router();
 
-// var burger = require('./../models/burger.js');
+// Import the model (burger.js) so we can use its database functions.
+var burger  = require('../models/burger.js');
 
-var router = express.Router();
-// const routes = require('./burgers');
-var orm = require('./../config/orm')
-
+// Create the routes and associated logic
 router.get('/', function(req, res) {
 
-  orm.selectAll(function(data) {
+  burger.selectAll(function(data) {
     var hbsObject = {
       burgers: data
     };
@@ -17,25 +18,26 @@ router.get('/', function(req, res) {
 });
 
 
-// router.post('/', function(req, res) {
-//   burger.insertOne([
-//     'burger_name',
-//   ], [
-//     req.body.burger_name
+router.post('/', function(req, res) {
+  burger.insertOne([
+    'burger_name',
+  ], [
+    req.body.burger_name
 
-//   ], function(data) {
-//     res.redirect('/');
-//   });
-// });
+  ], function(data) {
+    res.redirect('/');
+  });
+});
 
 
-// router.post('/', function(req, res) {
-
-//   burger.updateOne(['burger_name', true], function(data){
-//       res.redirect('/');
-//   })
-//     // devoured: true
-// });
+router.post('/:id', function(req, res) {
+  var condition = 'id = ' + req.params.id;
+  burger.updateOne({
+    devoured: true
+  }, condition, function(data) {
+    res.redirect('/');
+  });
+});
 
 // Export routes for the server.js to use.
 module.exports = router;

@@ -2,8 +2,9 @@
 //
 // Dependencies.
 var express = require("express");
+var methodOverride = require("method-override");
 var bodyParser = require("body-parser");
-var routes = require('./controllers/burgers_controller');
+var routes = require('./controllers/burgers_controller.js');
 
 
 // Sets up the Express App
